@@ -43,13 +43,13 @@ const GraphVisualizer = ({ frames, currentIndex, previousLocals, graphVar = "gra
         
         {/* Draw Nodes */}
         {Object.keys(nodePositions).map(nodeStr => {
-          const id = parseInt(nodeStr);
+          const id = nodeStr; // Keep as string
           const { x, y } = nodePositions[id];
           
-          const isCurrent = id === current;
-          const isVisited = visited.includes(id);
-          const isInQueue = queue.includes(id);
-          const justMovedHere = isCurrent && current !== prevCurrent;
+          const isCurrent = id === String(current);
+          const isVisited = visited.map(String).includes(id);
+          const isInQueue = queue.map(String).includes(id);
+          const justMovedHere = isCurrent && String(current) !== String(prevCurrent);
           
           let fillClass = "graph-node-unvisited";
           if (isCurrent) fillClass = "graph-node-current";

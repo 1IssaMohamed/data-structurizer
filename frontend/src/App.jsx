@@ -1,3 +1,13 @@
+/**
+ * ==========================================================================
+ * MAIN FRONTEND APPLICATION (React)
+ * ==========================================================================
+ * This is the "Eyes" of the application. It handles:
+ * 1. User navigation (picking an algorithm).
+ * 2. Talking to the Python backend to get code snapshots.
+ * 3. Animating the results so you can see the algorithm in action.
+ */
+
 import React, { useState, useEffect } from 'react';
 import { ALGORITHMS } from './config/algorithms';
 import AlgorithmSelector from './components/AlgorithmSelector';
@@ -7,30 +17,45 @@ import CustomInputForm from './components/CustomInputForm';
 import CodeViewer from './components/CodeViewer';
 
 function App() {
-  // ── Navigation ─────────────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 1. STATE MANAGEMENT (The Memory)
+  // --------------------------------------------------------------------------
+  // We use these variables to "remember" what the user is doing.
+
+  // ── Navigation State ──
+  // We use these to track which "Page" the user is on (landing, mode select, or visualizer)
   const [screen, setScreen] = useState('select');
   const [selectedAlgorithmId, setSelectedAlgorithmId] = useState(null);
 
-  // ── Visualizer state ────────────────────────────────────────
-  const [frames, setFrames] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [sourceCode, setSourceCode] = useState('');
-  const [sourceStartLine, setSourceStartLine] = useState(1);
+  // ── Visualizer State ──
+  // This is the core data for the animations!
+  const [frames, setFrames] = useState([]);         // All the "snapshots" from the Python tracer
+  const [currentIndex, setCurrentIndex] = useState(0); // Which snapshot are we currently looking at?
+  const [loading, setLoading] = useState(false);    // Are we waiting for the Python backend?
+  const [error, setError] = useState(null);         // Did something blow up?
+  const [isPlaying, setIsPlaying] = useState(false); // Is the "Auto-Play" running?
+  const [sourceCode, setSourceCode] = useState(''); // The text of the Python code
+  const [sourceStartLine, setSourceStartLine] = useState(1); // Where the code starts (for highlighting)
 
   const selectedAlgorithm = ALGORITHMS.find(a => a.id === selectedAlgorithmId);
 
-  // ── Fetch ───────────────────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 2. DATA FETCHING (Talking to Python)
+  // --------------------------------------------------------------------------
+  // This section sends the algorithm name and your input data to the 
+  // backend server and waits for the "snapshots" to come back.
+
   const fetchTrace = async (args, kwargs = {}) => {
+    // Reset everything before we start a new run
     setLoading(true);
     setError(null);
     setFrames([]);
     setCurrentIndex(0);
     setIsPlaying(false);
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/trace';
+      // Use the environment variable from DigitalOcean, or fallback to a relative path so Nginx can proxy it
+      const apiUrl = import.meta.env.VITE_API_URL || '/trace';
+      
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,6 +63,7 @@ function App() {
       });
       const resData = await response.json();
       if (resData.success) {
+        // We got the data! Save the snapshots and the source code
         setFrames(resData.data.frames);
         setSourceCode(resData.source_code);
         setSourceStartLine(resData.source_start_line || 1);
@@ -51,7 +77,12 @@ function App() {
     }
   };
 
-  // ── Playback ────────────────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 3. PLAYBACK LOGIC (The Timer)
+  // --------------------------------------------------------------------------
+  // This part handles the "Play" button. It automatically moves to 
+  // the next snapshot every 800 milliseconds.
+
   useEffect(() => {
     let interval = null;
     if (isPlaying && frames.length > 0) {
@@ -65,7 +96,12 @@ function App() {
     return () => clearInterval(interval);
   }, [isPlaying, frames.length]);
 
-  // ── Navigation handlers ─────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 4. NAVIGATION HANDLERS
+  // --------------------------------------------------------------------------
+  // These functions are called when you click buttons to move 
+  // between different screens.
+
   const handleAlgorithmSelect = id => {
     setSelectedAlgorithmId(id);
     setFrames([]);
@@ -83,7 +119,11 @@ function App() {
     await fetchTrace(args);
   };
 
-  // ── Screen routing ──────────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 5. SCREEN ROUTING (What to show?)
+  // --------------------------------------------------------------------------
+  // This logic decides which component to show on the screen based on the 'screen' state.
+
   if (screen === 'select')
     return <AlgorithmSelector algorithms={ALGORITHMS} onSelect={handleAlgorithmSelect} />;
 
@@ -115,7 +155,11 @@ function App() {
       />
     );
 
-  // ── Visualizer screen ───────────────────────────────────────
+  // --------------------------------------------------------------------------
+  // 6. THE VISUALIZER SCREEN (The Main Event)
+  // --------------------------------------------------------------------------
+  // This is the actual visualization page where you see the code and animations.
+
   const VisualizerConfig = selectedAlgorithm?.visualizer;
   const VisualizerComponent = VisualizerConfig?.component;
 

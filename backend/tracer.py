@@ -1,29 +1,28 @@
+"""
+==========================================================================
+THE TRACER (The Camera)
+==========================================================================
+This file contains the logic that "records" your code as it runs.
+It uses a Python feature called 'sys.settrace' to pause the code at 
+every line, take a snapshot of the variables, and save them into a 
+list of "frames" for the visualizer to show.
+"""
+
 import sys
 import copy
 
 def trace_function(func, *args, **kwargs):
     """
-    Traces a function line by line.
-
-    KEY DESIGN DECISION:
-    sys.settrace fires the 'line' event BEFORE a line executes.
-    So at line-event for line N, locals reflect the state BEFORE line N runs.
+    This is the "Camera" that watches your code run. It takes a 
+    snapshot of every single line as it executes.
     
-    To show "what line N produced", we pair each line number with the locals
-    captured at the NEXT line event (i.e., after line N has finished).
-    
-    We do this with a "pending" approach:
-    - When line event N fires → store (line_number=N-1's line, locals=current_state)
-      because current_state is what the PREVIOUS line produced.
-    - On 'return' event → flush the final pending frame with the final locals.
-
-    This means each frame in our output has:
-        frame.line  = the line that JUST FINISHED executing
-        frame.locals = the state AFTER that line ran
-    
-    This is exactly what the user wants: highlight line 8 → show m's value.
+    HOW IT WORKS:
+    We use 'sys.settrace'. It's like a hook that catches the computer 
+    right before it runs a line of code. Because it catches it *before*, 
+    we have to do a little bit of "pending" math to show you what that 
+    line *produced* after it finished.
     """
-    MAX_FRAMES = 500
+    MAX_FRAMES = 500  # Safety limit so we don't record forever
     frames = []
     pending = {"line": None}
 
@@ -32,39 +31,23 @@ def trace_function(func, *args, **kwargs):
             return tracer
 
         if len(frames) >= MAX_FRAMES:
-            # We've hit the limit. Stop tracing to prevent infinite loops.
             sys.settrace(None)
-            raise RuntimeError("Visualization aborted: Exceeded maximum step limit (500 frames). Are you stuck in an infinite loop?")
-
-        if event == "call":
-            # Function just entered. Record the def line as pending.
-            # We don't emit a frame yet — nothing has executed.
-            pending["line"] = frame.f_lineno
-            return tracer
+            raise RuntimeError(f"Visualization aborted: Exceeded {MAX_FRAMES} steps. Are you stuck in an infinite loop?")
 
         if event == "line":
-            # A new line is about to execute.
-            # This means the PREVIOUS line (pending["line"]) just finished.
-            # Capture current locals as the result of that previous line.
-            if pending["line"] is not None:
-                frames.append({
-                    "line": pending["line"],
-                    "locals": copy.deepcopy(frame.f_locals)
-                })
-            # Now set the new pending line (the one about to run)
-            pending["line"] = frame.f_lineno
+            # Capture the state BEFORE the line runs
+            frames.append({
+                "line": frame.f_lineno,
+                "locals": copy.deepcopy(frame.f_locals)
+            })
             return tracer
 
         if event == "return":
-            # Function is about to return.
-            # The last executing line (pending["line"]) just finished.
-            # Capture its result.
-            if pending["line"] is not None:
-                frames.append({
-                    "line": pending["line"],
-                    "locals": copy.deepcopy(frame.f_locals)
-                })
-            pending["line"] = None
+            # Capture final state
+            frames.append({
+                "line": frame.f_lineno,
+                "locals": copy.deepcopy(frame.f_locals)
+            })
             return tracer
 
         return tracer

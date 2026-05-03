@@ -1,5 +1,12 @@
-# Paste your algorithm here.
-# Make sure to define it clearly. We will test with binarysearch_lower_bound.
+"""
+==========================================================================
+ALGORITHM LIBRARY
+==========================================================================
+This is where all the "Recipes" live. Each function here is an 
+algorithm that the user can choose to visualize. 
+
+If you want to add a new algorithm, just define a new function here!
+"""
 
 def binary_search(nums, target):
     l, r = 0, len(nums) - 1
@@ -39,9 +46,6 @@ def upper_bound(nums, target):
 
     return l
 
-# --- Phase 1 Reference Algorithms ---
-# (You can delete the bodies of these later to practice writing them from scratch!)
-
 def stack_demo(operations):
     # operations is a list of integers. Positive = push, -1 = pop
     stack = []
@@ -76,7 +80,6 @@ def linked_list_traverse(values):
         curr_idx += 1
     return result
 
-# --- Phase 2 Reference Algorithms ---
 def bst_search(tree, target):
     # tree is a level-order array: [10, 5, 15, 2, None, 12, 20]
     curr_idx = 0
@@ -104,7 +107,6 @@ def heap_insert(heap, val):
             break
     return heap
 
-# --- Phase 3 Reference Algorithms ---
 def hashmap_demo(keys, num_buckets):
     buckets = [[] for _ in range(num_buckets)]
     
@@ -123,7 +125,8 @@ def hashmap_demo(keys, num_buckets):
 
 def bfs_graph(graph, start_node):
     # Graph is an adjacency list: {"0": [1, 2], "1": [0, 3]...}
-    # Using string keys to ensure JSON serialization
+    # We force start_node to string to match JSON keys
+    start_node = str(start_node)
     visited = []
     queue = [start_node]
     visited.append(start_node)
@@ -131,17 +134,17 @@ def bfs_graph(graph, start_node):
     while queue:
         current = queue.pop(0)
         
-        # We ensure graph keys are strings because JSON converts dict keys to strings
+        # neighbors are expected to be strings or converted to strings
         neighbors = graph.get(str(current), [])
         
         for neighbor in neighbors:
-            if neighbor not in visited:
-                visited.append(neighbor)
-                queue.append(neighbor)
+            neighbor_str = str(neighbor)
+            if neighbor_str not in visited:
+                visited.append(neighbor_str)
+                queue.append(neighbor_str)
                 
     return visited
 
-# --- Phase 4 Reference Algorithms (Sorting) ---
 def bubble_sort(nums):
     n = len(nums)
     for i in range(n):

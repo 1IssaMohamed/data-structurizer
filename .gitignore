@@ -1,8 +1,6 @@
 # Root gitignore
 
-#
-DEPLOYMENT_GUIDE.md
-ULTIMATE_DEPLOYMENT_PLAN.md
+
 
 # Frontend
 frontend/node_modules/
