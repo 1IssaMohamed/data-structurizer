@@ -73,9 +73,9 @@ sudo docker-compose up -d --build
 ## 🎉 Part 4: View Your Live App!
 
 Wait a minute or two for the containers to build. Then, open your web browser and go to:
-`http://YOUR_DROPLET_IP:5173`
+`http://YOUR_DROPLET_IP`
 
-*(Note: Port 5173 is the port we exposed in `docker-compose.yml` for Nginx).*
+*(Note: We are now using the standard Port 80, so you don't need to type a port number anymore!).*
 
 Your app is now live on the internet! 
 
