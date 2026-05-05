@@ -80,3 +80,48 @@ Wait a minute or two for the containers to build. Then, open your web browser an
 Your app is now live on the internet! 
 
 If you ever want to update the app in the future, you simply `ssh` back into the droplet, run `git pull`, and run `sudo docker-compose up -d --build` again.
+
+---
+
+## 🔒 Part 5: Setting up SSL (Required for .dev)
+
+Because `.dev` domains **require** HTTPS, you must install an SSL certificate. We will use **Certbot** (Let's Encrypt) to do this for free.
+
+### Step 1: Point your Domain
+Go to your domain registrar (where you bought `algovisualizer.dev`) and point the **A Record** to your Droplet's IP address.
+
+### Step 2: Install Certbot on the Droplet
+```bash
+sudo apt install certbot -y
+```
+
+### Step 3: Stop Docker and Get the Certificate
+Certbot needs to use Port 80 to verify you own the domain, so we temporarily stop the app.
+```bash
+# Move into your project folder
+cd data-structurizer
+
+# Stop the app
+sudo docker-compose down
+
+# Request the certificate (Replace with your domain)
+sudo certbot certonly --standalone -d algovisualizer.dev -d www.algovisualizer.dev
+```
+*Follow the prompts (enter email, agree to terms).*
+
+### Step 4: Update Docker to use SSL
+Now we need to tell Docker where the certificates are and use the HTTPS configuration.
+
+1. **Update `docker-compose.yml`**: Open the file on your Droplet and **uncomment** the line that maps the production Nginx config:
+   ```yaml
+   volumes:
+     - /etc/letsencrypt:/etc/letsencrypt:ro
+     - ./frontend/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro  # <--- UNCOMMENT THIS
+   ```
+
+### Step 5: Restart the App
+```bash
+sudo docker-compose up -d --build
+```
+
+Now, visit `https://algovisualizer.dev` and you should see the padlock icon!
