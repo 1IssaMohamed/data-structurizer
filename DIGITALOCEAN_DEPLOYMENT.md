@@ -68,6 +68,13 @@ Because we containerized everything earlier, starting the app is literally one c
 sudo docker-compose up -d --build
 ```
 
+> **🛠️ Troubleshooting: `KeyError: 'ContainerConfig'`**
+> If you get a big red error containing `KeyError: 'ContainerConfig'`, this is a known bug with Ubuntu's older version of `docker-compose`. To fix it, you just need to clear out the corrupted containers and try again:
+> ```bash
+> sudo docker-compose rm -sf
+> sudo docker-compose up -d --build
+> ```
+
 ---
 
 ## 🎉 Part 4: View Your Live App!
