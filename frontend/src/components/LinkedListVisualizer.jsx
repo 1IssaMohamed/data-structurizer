@@ -1,25 +1,27 @@
 import React from 'react';
 
-const LinkedListVisualizer = ({ frames, currentIndex, previousLocals, listVar = "values", cursorVar = "curr_idx" }) => {
+const LinkedListVisualizer = ({ frames, currentIndex, previousLocals, listVar = "values", cursorVar = "curr_idx", pointers }) => {
   const locals = frames[currentIndex]?.locals || {};
   const prevLocals = previousLocals || {};
   
   const list = locals[listVar] || [];
-  const cursor = locals[cursorVar];
-  const prevCursor = prevLocals[cursorVar];
-  
-  const cursorMoved = cursor !== prevCursor;
+  const activePointers = pointers ? pointers : [cursorVar];
 
   return (
     <div className="ll-container">
       {list.map((val, idx) => {
-        const isCurrent = idx === cursor;
-        const highlight = isCurrent && cursorMoved;
+        const pointersHere = activePointers.filter(p => locals[p] === idx);
+        const isCurrent = pointersHere.length > 0;
+        const highlight = pointersHere.some(p => locals[p] !== prevLocals[p]);
 
         return (
           <div key={idx} className="ll-node-wrapper">
             <div className="ll-node-group">
-              {isCurrent && <div className="ll-pointer mono">CURR↓</div>}
+              {pointersHere.map((p, i) => (
+                <div key={p} className="ll-pointer mono" style={{ top: `-${35 + i * 20}px` }}>
+                  {p.toUpperCase()}↓
+                </div>
+              ))}
               <div className={`ll-node mono ${isCurrent ? 'll-active' : ''} ${highlight ? 'pointer-changed' : ''}`}>
                 {val}
               </div>
@@ -33,8 +35,12 @@ const LinkedListVisualizer = ({ frames, currentIndex, previousLocals, listVar = 
       <div className="ll-node-wrapper">
         <div className="ll-arrow mono">→</div>
         <div className="ll-node-group">
-          {cursor === list.length && <div className="ll-pointer mono">CURR↓</div>}
-          <div className={`ll-node mono null-node ${cursor === list.length ? 'll-active' : ''} ${cursor === list.length && cursorMoved ? 'pointer-changed' : ''}`}>
+          {activePointers.filter(p => locals[p] >= list.length).map((p, i) => (
+            <div key={p} className="ll-pointer mono" style={{ top: `-${35 + i * 20}px` }}>
+              {p.toUpperCase()}↓
+            </div>
+          ))}
+          <div className={`ll-node mono null-node ${activePointers.some(p => locals[p] >= list.length) ? 'll-active' : ''}`}>
             NULL
           </div>
         </div>

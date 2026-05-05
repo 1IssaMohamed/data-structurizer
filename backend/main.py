@@ -144,7 +144,9 @@ app.add_middleware(
 ALLOWED_ALGORITHMS = [
     "binary_search", "binarysearch_lower_bound", "upper_bound",
     "stack_demo", "queue_demo", "linked_list_traverse",
-    "bst_search", "heap_insert", "hashmap_demo", "bfs_graph", "bubble_sort"
+    "bst_search", "heap_insert", "hashmap_demo", "bfs_graph", "bubble_sort",
+    "two_pointers_sum", "sliding_window_max", "prefix_sum_array", "string_builder",
+    "fast_slow_pointer", "monotonic_stack", "dfs_graph", "bfs_tree", "binary_search_insert", "backtrack_subsets"
 ]
 
 @app.post("/trace")

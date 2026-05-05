@@ -222,5 +222,141 @@ export const ALGORITHMS = [
       { name: "Unsorted Array", description: "Standard O(N^2) sorting process.", args: [[64, 34, 25, 12, 22, 11, 90]] },
       { name: "Nearly Sorted", description: "Only a few elements out of place.", args: [[11, 12, 25, 22, 34, 64, 90]] }
     ]
+  },
+  {
+    id: "two_pointers_sum",
+    displayName: "Two Pointers Sum",
+    category: "Two Pointers",
+    description: "Find two numbers in a sorted array that add up to a target using left and right pointers.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "nums", pointers: ["l", "r"] } },
+    params: [
+      { name: "nums", label: "Sorted Array", type: "array", placeholder: "1, 2, 3, 4, 6" },
+      { name: "target", label: "Target Sum", type: "integer", placeholder: "6" }
+    ],
+    demos: [
+      { name: "Target Exists", description: "Finds 2 + 4 = 6.", args: [[1, 2, 3, 4, 6], 6] },
+      { name: "Target Missing", description: "Pointers cross without finding target.", args: [[1, 2, 3, 4, 6], 99] }
+    ]
+  },
+  {
+    id: "sliding_window_max",
+    displayName: "Sliding Window Max",
+    category: "Sliding Window",
+    description: "Find the maximum sum of any contiguous subarray of size K.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "nums", pointers: ["l", "r"] } },
+    params: [
+      { name: "nums", label: "Array", type: "array", placeholder: "2, 1, 5, 1, 3, 2" },
+      { name: "k", label: "Window Size K", type: "integer", placeholder: "3" }
+    ],
+    demos: [
+      { name: "Size 3 Window", description: "Sliding window across the array.", args: [[2, 1, 5, 1, 3, 2], 3] }
+    ]
+  },
+  {
+    id: "prefix_sum_array",
+    displayName: "Prefix Sum",
+    category: "Prefix Sum",
+    description: "Generate an array where each element is the sum of all preceding elements.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "prefix", pointers: ["i"] } },
+    params: [
+      { name: "nums", label: "Array", type: "array", placeholder: "1, 2, 3, 4" }
+    ],
+    demos: [
+      { name: "Basic Prefix Sum", description: "Calculates prefix sums.", args: [[1, 2, 3, 4]] }
+    ]
+  },
+  {
+    id: "string_builder",
+    displayName: "Efficient String Build",
+    category: "Strings",
+    description: "Building a string efficiently by appending to an array and joining at the end.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "res", pointers: [] } },
+    params: [
+      { name: "strings", label: "String Parts", type: "array", placeholder: "H, e, l, l, o" }
+    ],
+    demos: [
+      { name: "Build Hello", description: "Append characters and join.", args: [["H", "e", "l", "l", "o"]] }
+    ]
+  },
+  {
+    id: "fast_slow_pointer",
+    displayName: "Fast and Slow Pointer",
+    category: "Two Pointers",
+    description: "Simulating cycle detection or middle finding using a fast (moves 2) and slow (moves 1) pointer.",
+    visualizer: { component: LinkedListVisualizer, props: { listVar: "values", pointers: ["slow", "fast"] } },
+    params: [
+      { name: "values", label: "Array (Mock Linked List)", type: "array", placeholder: "1, 2, 3, 4, 5" }
+    ],
+    demos: [
+      { name: "Find Middle", description: "When fast reaches end, slow is at the middle.", args: [[1, 2, 3, 4, 5]] }
+    ]
+  },
+  {
+    id: "monotonic_stack",
+    displayName: "Monotonic Stack",
+    category: "Stack",
+    description: "Using a stack to keep track of the Next Greater Element.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "res", pointers: ["i"] } },
+    params: [
+      { name: "nums", label: "Array", type: "array", placeholder: "2, 1, 2, 4, 3" }
+    ],
+    demos: [
+      { name: "Next Greater Element", description: "Finds the next greater element for each item.", args: [[2, 1, 2, 4, 3]] }
+    ]
+  },
+  {
+    id: "dfs_graph",
+    displayName: "Graph DFS",
+    category: "Complex Structures",
+    description: "Depth-First Search on a graph using an adjacency list.",
+    visualizer: { component: GraphVisualizer, props: { 
+        graphVar: "graph", currentVar: "current", visitedVar: "visited", queueVar: "stack",
+        nodePositions: { "0": {x: 300, y: 50}, "1": {x: 150, y: 150}, "2": {x: 450, y: 150}, "3": {x: 100, y: 300}, "4": {x: 250, y: 300}, "5": {x: 500, y: 300} }
+    } },
+    params: [],
+    demos: [
+      { name: "Standard DFS", description: "Traverse deep before wide.", args: [{"0": [1, 2], "1": [0, 3, 4], "2": [0, 5], "3": [1], "4": [1], "5": [2]}, "0"] }
+    ]
+  },
+  {
+    id: "bfs_tree",
+    displayName: "Tree BFS",
+    category: "Hierarchical",
+    description: "Breadth-First Search on a Binary Tree using a Queue.",
+    visualizer: { component: TreeVisualizer, props: { treeVar: "tree", cursorVar: "curr_idx" } },
+    params: [
+      { name: "tree", label: "Tree Array", type: "array", placeholder: "1, 2, 3, 4, 5" }
+    ],
+    demos: [
+      { name: "Level Order Traversal", description: "Visits nodes level by level.", args: [[1, 2, 3, 4, 5]] }
+    ]
+  },
+  {
+    id: "binary_search_insert",
+    displayName: "Search Insert Position",
+    category: "Binary Search",
+    description: "Return the index where the target should be inserted to maintain sorted order.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "nums", pointers: ["l", "r", "m"] } },
+    params: [
+      { name: "nums", label: "Sorted Array", type: "array", placeholder: "1, 3, 5, 6" },
+      { name: "target", label: "Target", type: "integer", placeholder: "5" }
+    ],
+    demos: [
+      { name: "Target Found", description: "Target 5 is found at index 2.", args: [[1, 3, 5, 6], 5] },
+      { name: "Target Inserted", description: "Target 2 is missing, returns insertion index 1.", args: [[1, 3, 5, 6], 2] }
+    ]
+  },
+  {
+    id: "backtrack_subsets",
+    displayName: "Backtracking (Subsets)",
+    category: "Recursion",
+    description: "Generates all possible subsets using a backtracking DFS approach.",
+    visualizer: { component: ArrayVisualizer, props: { arrayVar: "subset", pointers: [] } },
+    params: [
+      { name: "nums", label: "Array", type: "array", placeholder: "1, 2, 3" }
+    ],
+    demos: [
+      { name: "Generate Subsets", description: "Explores include/exclude decisions.", args: [[1, 2, 3]] }
+    ]
   }
 ];

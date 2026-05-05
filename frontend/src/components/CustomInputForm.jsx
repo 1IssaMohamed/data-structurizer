@@ -12,7 +12,7 @@ const CustomInputForm = ({ algorithm, onSubmit, onBack }) => {
         const trimmed = s.trim();
         if (trimmed.toLowerCase() === 'null' || trimmed.toLowerCase() === 'none') return null;
         const n = Number(trimmed);
-        if (isNaN(n)) throw new Error(`"${trimmed}" is not a valid number.`);
+        if (isNaN(n)) return trimmed;
         return n;
       });
     }
