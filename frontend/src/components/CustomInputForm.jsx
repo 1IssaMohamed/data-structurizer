@@ -9,8 +9,10 @@ const CustomInputForm = ({ algorithm, onSubmit, onBack }) => {
   const parseValue = (param, raw) => {
     if (param.type === 'array') {
       return raw.split(',').map(s => {
-        const n = Number(s.trim());
-        if (isNaN(n)) throw new Error(`"${s.trim()}" is not a valid number.`);
+        const trimmed = s.trim();
+        if (trimmed.toLowerCase() === 'null' || trimmed.toLowerCase() === 'none') return null;
+        const n = Number(trimmed);
+        if (isNaN(n)) throw new Error(`"${trimmed}" is not a valid number.`);
         return n;
       });
     }

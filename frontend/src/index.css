@@ -154,11 +154,11 @@
   }
   
   /* Specific colors for pointers, avoiding generic palettes. Just stark distinct colors or shapes */
-  .pointer-l {
+  .pointer-l, .pointer-i {
     top: -30px;
     color: #000;
   }
-  .pointer-r {
+  .pointer-r, .pointer-j {
     bottom: -30px;
     color: #000;
   }

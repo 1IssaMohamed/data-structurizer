@@ -26,7 +26,7 @@ const ArrayVisualizer = ({ frames, currentIndex, arrayVar, pointers, previousLoc
               style={{ transform: `translateX(${pointerIdx * 60}px)` }}
             >
               {pointerName.toUpperCase()}
-              {pointerName === 'l' ? '↓' : pointerName === 'r' ? '↑' : '↓'}
+              {pointerName === 'l' || pointerName === 'i' ? '↓' : pointerName === 'r' || pointerName === 'j' ? '↑' : '↓'}
             </div>
           );
         })}

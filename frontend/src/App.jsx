@@ -201,7 +201,7 @@ function App() {
         </span>
       </div>
 
-      {loading && <div className="mono" style={{ marginBottom: '20px' }}>RUNNING PYTHON TRACER...</div>}
+      {loading && <div className="mono" style={{ marginBottom: '20px' }}>Generating Visualization...</div>}
 
       {!loading && !error && VisualizerComponent && frames.length > 0 && (
         <div className="main-layout">
