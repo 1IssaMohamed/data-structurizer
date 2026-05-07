@@ -23,5 +23,6 @@ jobs:
           script: |
             cd ~/data-structurizer
             git pull origin main
-            docker compose up -d --build
+            docker-compose down
+            docker-compose up -d --build
             docker system prune -f
