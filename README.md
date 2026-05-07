@@ -1,6 +1,6 @@
 # Algorithm Visualizer
 
-I made this tool to help me stop guessing how code works and actually see it. It's basically a DVR for algorithms - you can run some Python code and then step through it line-by-line to see exactly how the variables change.
+I made this tool to help me thorugh neetcode 75. I realized lots of times I was stuck becuase I really didnt visualize an algo correctly, esp wtih regards to ege cases. So this runs through code line by line to see exactly how the variables change with each iteration
 
 I built this because while I was doing LeetCode, I kept getting confused about how pointers were moving in my head. Drawing it on paper was too slow, so I made this instead.
 

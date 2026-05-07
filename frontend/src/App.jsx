@@ -15,6 +15,7 @@ import ModeSelector from './components/ModeSelector';
 import DemoSelector from './components/DemoSelector';
 import CustomInputForm from './components/CustomInputForm';
 import CodeViewer from './components/CodeViewer';
+import InfoView from './components/InfoView';
 
 function App() {
   // --------------------------------------------------------------------------
@@ -131,9 +132,18 @@ function App() {
     return (
       <ModeSelector
         algorithm={selectedAlgorithm}
+        onInfo={() => setScreen('info')}
         onDemo={() => setScreen('demo-select')}
         onCustom={() => setScreen('custom-input')}
         onBack={() => setScreen('select')}
+      />
+    );
+
+  if (screen === 'info')
+    return (
+      <InfoView
+        algorithm={selectedAlgorithm}
+        onBack={() => setScreen('mode')}
       />
     );
 
