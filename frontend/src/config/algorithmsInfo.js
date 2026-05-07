@@ -1,6 +1,6 @@
 export const ALGORITHM_INFO = {
   "binary_search": {
-    "whatItIs": "Binary Search is a classic algorithmic technique to find the exact position of a target value within a sorted array.",
+    "whatItIs": "Binary Search is a classico algorithmic technique to find the exact position of a target value within a sorted array.",
     "howItWorks": "1. Initialize two pointers: 'left' at index 0, and 'right' at the last index.\n2. Find the 'mid' index between left and right.\n3. If the element at 'mid' is the target, return it.\n4. If the element at 'mid' is smaller than the target, the target must be in the right half. Update 'left' = mid + 1.\n5. If the element at 'mid' is larger, the target must be in the left half. Update 'right' = mid - 1.",
     "genius": "In a naive linear search, you must check every element one by one, which takes O(n) time. Binary search leverages the fact that the array is already sorted. By checking the middle element, it can eliminate half of the remaining search space instantly. This logarithmic reduction (O(log n)) means you can search 1,000,000 items in just 20 checks.",
     "practiceProblems": [
