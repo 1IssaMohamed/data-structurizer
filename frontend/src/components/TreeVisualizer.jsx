@@ -1,6 +1,7 @@
 import React from 'react';
+import QueueVisualizer from './QueueVisualizer';
 
-const TreeVisualizer = ({ frames, currentIndex, previousLocals, treeVar = "tree", cursorVar = "curr_idx" }) => {
+const TreeVisualizer = ({ frames, currentIndex, previousLocals, treeVar = "tree", cursorVar = "curr_idx", queueVar = "queue" }) => {
   const locals = frames[currentIndex]?.locals || {};
   const prevLocals = previousLocals || {};
   
@@ -105,6 +106,14 @@ const TreeVisualizer = ({ frames, currentIndex, previousLocals, treeVar = "tree"
           );
         })}
       </svg>
+      
+      {/* Sub-structures */}
+      {locals[queueVar] && (
+        <div style={{ marginTop: '20px', width: '100%' }}>
+          <h3 className="mono" style={{ textAlign: 'center' }}>BFS QUEUE</h3>
+          <QueueVisualizer frames={frames} currentIndex={currentIndex} previousLocals={previousLocals} queueVar={queueVar} />
+        </div>
+      )}
     </div>
   );
 };

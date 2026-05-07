@@ -296,7 +296,7 @@ export const ALGORITHMS = [
     displayName: "Monotonic Stack",
     category: "Stack",
     description: "Using a stack to keep track of the Next Greater Element.",
-    visualizer: { component: ArrayVisualizer, props: { arrayVar: "res", pointers: ["i"] } },
+    visualizer: { component: StackVisualizer, props: { stackVar: "stack" } },
     params: [
       { name: "nums", label: "Array", type: "array", placeholder: "2, 1, 2, 4, 3" }
     ],

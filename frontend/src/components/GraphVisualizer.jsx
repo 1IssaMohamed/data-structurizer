@@ -1,4 +1,6 @@
 import React from 'react';
+import QueueVisualizer from './QueueVisualizer';
+import StackVisualizer from './StackVisualizer';
 
 const GraphVisualizer = ({ frames, currentIndex, previousLocals, graphVar = "graph", currentVar = "current", visitedVar = "visited", queueVar = "queue", nodePositions }) => {
   const locals = frames[currentIndex]?.locals || {};
@@ -82,6 +84,20 @@ const GraphVisualizer = ({ frames, currentIndex, previousLocals, graphVar = "gra
         <div className="legend-item"><span className="legend-box graph-node-current"></span> Current</div>
         <div className="legend-item"><span className="legend-box graph-node-visited"></span> Visited</div>
       </div>
+      
+      {/* Sub-structures */}
+      {queueVar === "queue" && locals[queueVar] && (
+        <div style={{ marginTop: '20px', width: '100%' }}>
+          <h3 className="mono" style={{ textAlign: 'center' }}>BFS QUEUE</h3>
+          <QueueVisualizer frames={frames} currentIndex={currentIndex} previousLocals={previousLocals} queueVar="queue" />
+        </div>
+      )}
+      {queueVar === "stack" && locals[queueVar] && (
+        <div style={{ marginTop: '20px', width: '100%' }}>
+          <h3 className="mono" style={{ textAlign: 'center' }}>DFS STACK</h3>
+          <StackVisualizer frames={frames} currentIndex={currentIndex} previousLocals={previousLocals} stackVar="stack" />
+        </div>
+      )}
     </div>
   );
 };

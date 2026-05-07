@@ -12,31 +12,30 @@ const HashmapVisualizer = ({ frames, currentIndex, previousLocals, bucketsVar = 
   
   return (
     <div className="hashmap-container">
-      <div className="hashmap-header mono">
-        <div className="hashmap-info">
-          CURRENT KEY: <span className="highlight-text">{currentKey !== undefined ? currentKey : 'None'}</span>
+      <div className="hash-calc-box mono">
+        <div>
+          CURRENT KEY: <br/> <span style={{fontSize: '24px', color: 'red'}}>{currentKey !== undefined ? currentKey : 'None'}</span>
         </div>
-        <div className="hashmap-info">
-          HASH VALUE: <span className="highlight-text">{hashVal !== undefined ? hashVal : 'None'}</span>
+        <div style={{ marginTop: '20px' }}>
+          HASH VALUE: <br/> <span style={{fontSize: '24px', color: 'red'}}>{hashVal !== undefined ? hashVal : 'None'}</span>
         </div>
       </div>
       
-      <div className="hashmap-buckets">
+      <div className="bucket-list">
         {buckets.map((bucket, idx) => {
           const isTargetBucket = idx === hashVal;
-          // Check if this specific bucket changed length
           const prevBucket = prevBuckets[idx] || [];
           const bucketChanged = bucket && prevBucket && bucket.length !== prevBucket.length;
           
           return (
-            <div key={idx} className={`hash-bucket-row ${isTargetBucket ? 'active-bucket' : ''}`}>
-              <div className="hash-index mono">{idx}</div>
-              <div className={`hash-bucket-contents ${bucketChanged ? 'pointer-changed' : ''}`}>
+            <div key={idx} className="bucket-row">
+              <div className="bucket-index mono">{idx}</div>
+              <div className={`bucket-items ${isTargetBucket ? 'active-bucket' : ''}`}>
                 {bucket === null || bucket === undefined || bucket.length === 0 ? (
-                  <span className="empty-bucket mono">EMPTY</span>
+                  <span className="empty-bucket mono" style={{color: '#888'}}>EMPTY</span>
                 ) : (
                   bucket.map((item, i) => (
-                    <div key={i} className="hash-item mono">
+                    <div key={i} className={`hashmap-key mono ${bucketChanged && i === bucket.length - 1 ? 'pointer-changed' : ''}`}>
                       {Array.isArray(item) ? `${item[0]}: ${item[1]}` : item}
                     </div>
                   ))

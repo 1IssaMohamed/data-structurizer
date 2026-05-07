@@ -5,11 +5,12 @@ const QueueVisualizer = ({ frames, currentIndex, previousLocals, queueVar = "que
   const prevLocals = previousLocals || {};
   
   const queue = locals[queueVar] || [];
-  const head = locals[headVar];
-  const tail = locals[tailVar];
   
-  const prevHead = prevLocals[headVar];
-  const prevTail = prevLocals[tailVar];
+  const head = locals[headVar] !== undefined ? locals[headVar] : 0;
+  const tail = locals[tailVar] !== undefined ? locals[tailVar] : queue.length;
+  
+  const prevHead = prevLocals[headVar] !== undefined ? prevLocals[headVar] : 0;
+  const prevTail = prevLocals[tailVar] !== undefined ? prevLocals[tailVar] : (prevLocals[queueVar]?.length || 0);
 
   return (
     <div className="queue-container">
