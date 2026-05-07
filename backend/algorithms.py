@@ -152,3 +152,130 @@ def bubble_sort(nums):
             if nums[j] > nums[j + 1]:
                 nums[j], nums[j + 1] = nums[j + 1], nums[j]
     return nums
+
+def two_pointers_sum(nums, target):
+    l, r = 0, len(nums) - 1
+    while l < r:
+        s = nums[l] + nums[r]
+        if s == target:
+            return [l, r]
+        elif s < target:
+            l += 1
+        else:
+            r -= 1
+    return [-1, -1]
+
+def sliding_window_max(nums, k):
+    res = []
+    l = 0
+    window_sum = sum(nums[:k])
+    res.append(window_sum)
+    for r in range(k, len(nums)):
+        window_sum += nums[r] - nums[l]
+        res.append(window_sum)
+        l += 1
+    return res
+
+def prefix_sum_array(nums):
+    prefix = [0] * len(nums)
+    prefix[0] = nums[0]
+    for i in range(1, len(nums)):
+        prefix[i] = prefix[i - 1] + nums[i]
+    return prefix
+
+def string_builder(strings):
+    res = []
+    for s in strings:
+        res.append(s)
+    return "".join(res)
+
+def fast_slow_pointer(values):
+    # Simulating a linked list using an array
+    slow = 0
+    fast = 0
+    while fast < len(values) and fast + 1 < len(values):
+        slow += 1
+        fast += 2
+    return slow
+
+def monotonic_stack(nums):
+    res = [-1] * len(nums)
+    stack = []
+    for i in range(len(nums)):
+        while stack and nums[stack[-1]] < nums[i]:
+            idx = stack.pop()
+            res[idx] = nums[i]
+        stack.append(i)
+    return res
+
+def dfs_graph(graph, start_node):
+    start_node = str(start_node)
+    visited = []
+    stack = [start_node]
+    
+    while stack:
+        current = stack.pop()
+        if current not in visited:
+            visited.append(current)
+            neighbors = graph.get(str(current), [])
+            # Push in reverse so we visit in standard left-to-right order
+            for neighbor in reversed(neighbors):
+                neighbor_str = str(neighbor)
+                if neighbor_str not in visited:
+                    stack.append(neighbor_str)
+                    
+    return visited
+
+def bfs_tree(tree):
+    # Tree is an array representation
+    if not tree:
+        return []
+        
+    visited = []
+    queue = [0] # stores indices
+    
+    while queue:
+        curr_idx = queue.pop(0)
+        if curr_idx < len(tree) and tree[curr_idx] is not None:
+            visited.append(tree[curr_idx])
+            left_child = 2 * curr_idx + 1
+            right_child = 2 * curr_idx + 2
+            
+            if left_child < len(tree) and tree[left_child] is not None:
+                queue.append(left_child)
+            if right_child < len(tree) and tree[right_child] is not None:
+                queue.append(right_child)
+                
+    return visited
+
+def binary_search_insert(nums, target):
+    l, r = 0, len(nums) - 1
+    while l <= r:
+        m = (l + r) // 2
+        if nums[m] == target:
+            return m
+        elif nums[m] < target:
+            l = m + 1
+        else:
+            r = m - 1
+    return l
+
+def backtrack_subsets(nums):
+    subset = []
+    result = []
+    
+    def dfs(i):
+        if i >= len(nums):
+            result.append(subset.copy())
+            return
+            
+        # Decision to include nums[i]
+        subset.append(nums[i])
+        dfs(i + 1)
+        
+        # Decision to NOT include nums[i]
+        subset.pop()
+        dfs(i + 1)
+        
+    dfs(0)
+    return result

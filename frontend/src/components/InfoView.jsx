@@ -20,45 +20,47 @@ const InfoView = ({ algorithm, onBack }) => {
     <div className="screen-container" style={{ maxWidth: '800px', margin: '0 auto', paddingBottom: '60px' }}>
       <button className="back-btn" onClick={onBack}>← Back</button>
       
-      <div className="screen-header">
+      <div className="screen-header" style={{ marginBottom: '40px' }}>
         <div className="breadcrumb mono">{algorithm.category}</div>
         <h1 style={{ fontSize: '36px', marginBottom: '8px' }}>{algorithm.displayName.toUpperCase()}</h1>
-        <p className="screen-subtitle" style={{ fontSize: '18px', fontStyle: 'italic', marginBottom: '32px' }}>
-          {info.introduction}
-        </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
         
-        {/* How it Works Section */}
-        <div style={{ backgroundColor: '#fff', border: '2px solid #000', padding: '24px' }}>
-          <h2 style={{ fontSize: '20px', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px', display: 'inline-block' }}>⚙️ HOW IT WORKS</h2>
+        <div>
+          <h2 style={{ fontSize: '20px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px' }}>What It Is</h2>
+          <div style={{ whiteSpace: 'pre-line', lineHeight: '1.7', fontSize: '15px' }}>
+            {info.whatItIs}
+          </div>
+        </div>
+
+        <div>
+          <h2 style={{ fontSize: '20px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px' }}>How It Works</h2>
           <div style={{ whiteSpace: 'pre-line', lineHeight: '1.7', fontSize: '15px' }}>
             {info.howItWorks}
           </div>
         </div>
 
-        {/* The Genius Section */}
-        <div style={{ backgroundColor: '#B4D3D9', border: '2px solid #000', padding: '24px' }}>
-          <h2 style={{ fontSize: '20px', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px', display: 'inline-block' }}>🧠 THE GENIUS</h2>
-          <div style={{ lineHeight: '1.7', fontSize: '15px' }}>
+        <div>
+          <h2 style={{ fontSize: '20px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px' }}>The Genius</h2>
+          <div style={{ whiteSpace: 'pre-line', lineHeight: '1.7', fontSize: '15px' }}>
             {info.genius}
           </div>
         </div>
 
-        {/* Comparisons Section */}
-        <div style={{ backgroundColor: '#fff', border: '2px solid #000', padding: '24px' }}>
-          <h2 style={{ fontSize: '20px', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px', display: 'inline-block' }}>⚖️ COMPARISONS</h2>
-          <div style={{ lineHeight: '1.7', fontSize: '15px' }}>
-            {info.comparisons}
+        {info.comparisons && (
+          <div>
+            <h2 style={{ fontSize: '20px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px' }}>Comparisons</h2>
+            <div style={{ whiteSpace: 'pre-line', lineHeight: '1.7', fontSize: '15px' }}>
+              {info.comparisons}
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* LeetCode Practice */}
-        <div style={{ backgroundColor: '#BDA6CE', border: '2px solid #000', padding: '24px' }}>
-          <h2 style={{ fontSize: '20px', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px', display: 'inline-block' }}>💻 NEETCODE 75 PRACTICE</h2>
+        <div>
+          <h2 style={{ fontSize: '20px', textTransform: 'uppercase', borderBottom: '2px solid #000', paddingBottom: '8px', marginBottom: '16px' }}>Practice Problems</h2>
           <ul style={{ listStyleType: 'none', padding: 0 }}>
-            {info.leetcode.map((problem, idx) => (
+            {info.practiceProblems.map((problem, idx) => (
               <li key={idx} style={{ marginBottom: '12px' }}>
                 <a 
                   href={problem.link} 
@@ -66,7 +68,7 @@ const InfoView = ({ algorithm, onBack }) => {
                   rel="noopener noreferrer"
                   style={{ color: '#000', fontWeight: 'bold', textDecoration: 'underline', fontSize: '16px' }}
                 >
-                  ↗ {problem.name}
+                  {problem.name}
                 </a>
               </li>
             ))}
