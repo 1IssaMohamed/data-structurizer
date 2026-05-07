@@ -10,7 +10,7 @@ I built this because while I was doing LeetCode, I kept getting confused about h
 - Sends those snapshots to the frontend
 - Animates everything so you can see pointers moving, arrays sorting, and trees being searched
 
-### The Tech
+### The Techy
 - Backend: Python 3.11 with FastAPI. It uses a worker pool so it can handle a few people at once without lagging.
 - Frontend: React 19. I kept the styling simple and clean with vanilla CSS.
 - Infrastructure: Dockerized so it runs the same on my laptop as it does in the cloud.
