@@ -1,5 +1,7 @@
 import React from 'react';
 
+const ARRAY_BOX_WIDTH = 60; // px — must match .array-box width in CSS
+
 const ArrayVisualizer = ({ frames, currentIndex, arrayVar, pointers, previousLocals }) => {
   if (!frames || frames.length === 0) return <div>No frames available</div>;
   
@@ -10,8 +12,8 @@ const ArrayVisualizer = ({ frames, currentIndex, arrayVar, pointers, previousLoc
   const arrayData = locals[arrayVar] || [];
 
   return (
-    <div>
-      <div className="array-container">
+    <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <div className="array-container" style={{ minWidth: `${arrayData.length * ARRAY_BOX_WIDTH + 4}px` }}>
         {/* Render Pointers */}
         {pointers.map((pointerName) => {
           const pointerIdx = locals[pointerName];
@@ -23,7 +25,7 @@ const ArrayVisualizer = ({ frames, currentIndex, arrayVar, pointers, previousLoc
             <div 
               key={pointerName}
               className={`pointer pointer-${pointerName.toLowerCase()} mono ${isChanged ? 'pointer-changed' : ''}`}
-              style={{ transform: `translateX(${pointerIdx * 60}px)` }}
+              style={{ transform: `translateX(${pointerIdx * ARRAY_BOX_WIDTH}px)` }}
             >
               {pointerName.toUpperCase()}
               {pointerName === 'l' || pointerName === 'i' ? '↓' : pointerName === 'r' || pointerName === 'j' ? '↑' : '↓'}

@@ -1,14 +1,27 @@
 import React from 'react';
 
+// The backend sanitize_locals only goes one level deep, so inner bucket lists
+// like [] or [10, 22] get serialized as strings '[]' or '[10, 22]'.
+// This helper safely parses them back to arrays.
+const parseBucket = (bucket) => {
+  if (Array.isArray(bucket)) return bucket;
+  if (typeof bucket === 'string') {
+    try { return JSON.parse(bucket); } catch { return []; }
+  }
+  return [];
+};
+
 const HashmapVisualizer = ({ frames, currentIndex, previousLocals, bucketsVar = "buckets", keyVar = "current_key", hashVar = "hash_val" }) => {
   const locals = frames[currentIndex]?.locals || {};
   const prevLocals = previousLocals || {};
   
-  const buckets = locals[bucketsVar] || [];
+  const rawBuckets = locals[bucketsVar] || [];
+  const buckets = Array.isArray(rawBuckets) ? rawBuckets.map(parseBucket) : [];
   const currentKey = locals[keyVar];
   const hashVal = locals[hashVar];
   
-  const prevBuckets = prevLocals[bucketsVar] || [];
+  const rawPrevBuckets = prevLocals[bucketsVar] || [];
+  const prevBuckets = Array.isArray(rawPrevBuckets) ? rawPrevBuckets.map(parseBucket) : [];
   
   return (
     <div className="hashmap-container">
@@ -25,13 +38,13 @@ const HashmapVisualizer = ({ frames, currentIndex, previousLocals, bucketsVar = 
         {buckets.map((bucket, idx) => {
           const isTargetBucket = idx === hashVal;
           const prevBucket = prevBuckets[idx] || [];
-          const bucketChanged = bucket && prevBucket && bucket.length !== prevBucket.length;
+          const bucketChanged = Array.isArray(bucket) && Array.isArray(prevBucket) && bucket.length !== prevBucket.length;
           
           return (
             <div key={idx} className="bucket-row">
               <div className="bucket-index mono">{idx}</div>
               <div className={`bucket-items ${isTargetBucket ? 'active-bucket' : ''}`}>
-                {bucket === null || bucket === undefined || bucket.length === 0 ? (
+                {!Array.isArray(bucket) || bucket.length === 0 ? (
                   <span className="empty-bucket mono" style={{color: '#888'}}>EMPTY</span>
                 ) : (
                   bucket.map((item, i) => (

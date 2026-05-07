@@ -36,7 +36,7 @@ const TreeVisualizer = ({ frames, currentIndex, previousLocals, treeVar = "tree"
 
   return (
     <div className="graph-container">
-      <svg width={W} height={H} className="graph-svg">
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} className="graph-svg" style={{ display: 'block' }}>
         {/* Draw Edges first */}
         {tree.map((val, idx) => {
           if (val === null || val === undefined) return null;
@@ -51,14 +51,14 @@ const TreeVisualizer = ({ frames, currentIndex, previousLocals, treeVar = "tree"
                 <line 
                   x1={x1} y1={y1} 
                   x2={getNodePos(leftChildIdx).x} y2={getNodePos(leftChildIdx).y} 
-                  stroke="var(--border-color)" strokeWidth={3} 
+                  stroke="#000" strokeWidth={3} 
                 />
               )}
               {rightChildIdx < tree.length && tree[rightChildIdx] !== null && tree[rightChildIdx] !== undefined && (
                 <line 
                   x1={x1} y1={y1} 
                   x2={getNodePos(rightChildIdx).x} y2={getNodePos(rightChildIdx).y} 
-                  stroke="var(--border-color)" strokeWidth={3} 
+                  stroke="#000" strokeWidth={3} 
                 />
               )}
             </React.Fragment>

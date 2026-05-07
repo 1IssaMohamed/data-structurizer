@@ -179,7 +179,7 @@ function App() {
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '4px' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', marginBottom: '4px', flexWrap: 'wrap' }}>
         <h1 style={{ marginBottom: 0, borderBottom: 'none', paddingBottom: 0 }}>ALGORITHM VISUALIZER</h1>
         <span className="mono" style={{ fontSize: '16px', color: '#555' }}>
           {selectedAlgorithm?.displayName}

@@ -1,3 +1,11 @@
+:root {
+  --border-color: #000000;
+  --primary-color: #BDA6CE;
+  --bg-color: #F2EAE0;
+  --card-bg: #ffffff;
+  --text-color: #000000;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,6 +20,10 @@
     padding: 40px;
     max-width: 1400px;
     margin: 0 auto;
+    /* Safe area insets for iPhone notch/home bar */
+    padding-left: max(40px, env(safe-area-inset-left));
+    padding-right: max(40px, env(safe-area-inset-right));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
   }
   
   .main-layout {
@@ -22,11 +34,12 @@
   
   .visualizer-section {
     flex: 1;
+    min-width: 0; /* prevent flex blowout */
   }
   
   .code-viewer-container {
     flex: 1;
-    min-width: 400px;
+    min-width: 320px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -36,12 +49,15 @@
     border: 2px solid #000;
     padding: 20px;
     background-color: #ffffff;
+    overflow: hidden;
   }
   
   .code-block {
     font-size: 14px;
     line-height: 1.6;
     overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
   
   .code-line {
@@ -95,6 +111,10 @@
     cursor: pointer;
     text-transform: uppercase;
     transition: all 0.1s ease;
+    /* Larger tap targets for touch */
+    min-height: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
   
   button:hover:not(:disabled) {
@@ -178,14 +198,16 @@
   
   .controls-bar {
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 30px;
     align-items: center;
   }
   
   .frame-counter {
-    margin-left: 20px;
+    margin-left: 8px;
     font-weight: bold;
+    font-size: 13px;
   }
   
   .variables-panel {
@@ -250,42 +272,51 @@
 
   .algorithm-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
   }
 
   .algo-card {
-    border: 2px solid #000; padding: 28px; background: #fff;
+    border: 2px solid #000; padding: 24px; background: #fff;
     cursor: pointer; position: relative;
     transition: background-color 0.15s, transform 0.12s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .algo-card:hover { background: #BDA6CE; transform: translateY(-3px); }
+  .algo-card:active { background: #BDA6CE; }
   .algo-card-category { font-size: 11px; font-weight: bold; letter-spacing: 0.12em; text-transform: uppercase; color: #666; margin-bottom: 10px; }
-  .algo-card-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.03em; }
+  .algo-card-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.03em; }
   .algo-card-description { font-size: 13px; color: #444; line-height: 1.55; margin-bottom: 20px; }
   .algo-card-arrow { font-size: 22px; font-weight: bold; }
 
   /* ── Mode selector ───────────────────────────────── */
-  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 680px; }
+  .mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; max-width: 680px; }
 
   .mode-card {
-    border: 2px solid #000; padding: 40px 32px; background: #fff;
+    border: 2px solid #000; padding: 32px 24px; background: #fff;
     cursor: pointer; text-align: center;
     transition: background-color 0.15s, transform 0.12s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .mode-card:hover { background: #BDA6CE; transform: translateY(-3px); }
+  .mode-card:active { background: #BDA6CE; }
   .mode-card-icon { font-size: 36px; margin-bottom: 16px; }
-  .mode-card-title { font-size: 16px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+  .mode-card-title { font-size: 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
   .mode-card-description { font-size: 13px; color: #555; line-height: 1.55; }
 
   /* ── Demo selector ───────────────────────────────── */
-  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
 
   .demo-card {
-    border: 2px solid #000; padding: 24px; background: #fff;
+    border: 2px solid #000; padding: 20px; background: #fff;
     cursor: pointer; transition: background-color 0.15s, transform 0.12s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .demo-card:hover { background: #B4D3D9; transform: translateY(-2px); }
+  .demo-card:active { background: #B4D3D9; }
   .demo-card-number { font-size: 11px; font-weight: bold; letter-spacing: 0.1em; color: #888; margin-bottom: 8px; }
   .demo-card-name { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
   .demo-card-description { font-size: 13px; color: #444; line-height: 1.5; margin-bottom: 14px; }
@@ -321,12 +352,13 @@
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.45);
     display: flex; align-items: center; justify-content: center; z-index: 1000;
+    padding: 16px;
   }
-  .modal-box { background: #F2EAE0; border: 2px solid #000; padding: 40px; max-width: 440px; width: 100%; }
+  .modal-box { background: #F2EAE0; border: 2px solid #000; padding: 28px 24px; max-width: 440px; width: 100%; }
   .modal-warning-badge { font-size: 11px; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; color: #c00; margin-bottom: 14px; }
   .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 14px; border-bottom: none; letter-spacing: -0.03em; }
   .modal-description { font-size: 14px; color: #333; line-height: 1.65; margin-bottom: 28px; }
-  .modal-buttons { display: flex; gap: 12px; }
+  .modal-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
 
   .btn-proceed {
     background: #B4D3D9; border: 2px solid #000; padding: 10px 20px;
@@ -414,7 +446,7 @@
   border-top: 4px solid var(--border-color);
   border-bottom: 4px solid var(--border-color);
   padding: 20px 0;
-  min-width: 400px;
+  min-width: 0;
 }
 
 .queue-node-wrapper {
@@ -711,6 +743,8 @@
 
 .graph-circle {
   transition: fill 0.3s ease;
+  stroke: #000;
+  stroke-width: 2px;
 }
 
 .graph-node-unvisited { fill: #fff; }
@@ -719,7 +753,7 @@
 .graph-node-current { fill: #9B8EC7; stroke-width: 4px; } /* Dark Purple */
 
 .graph-text {
-  fill: var(--text-color);
+  fill: #000;
   font-weight: bold;
   pointer-events: none;
 }
@@ -899,8 +933,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  gap: 60px;
+  gap: 40px;
   margin: 40px 0;
+  flex-wrap: wrap;
 }
 
 .hash-calc-box {
@@ -960,4 +995,289 @@
 
 .hashmap-key.pointer-changed {
   background: #B4D3D9;
+}
+
+/* ==========================================================================
+   RESPONSIVE — TABLET (≤ 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  /* Stack the visualizer and code viewer vertically */
+  .main-layout {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .code-viewer-container {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .visualizer-section {
+    width: 100%;
+  }
+
+  /* Landing page */
+  .landing-container,
+  .screen-container {
+    max-width: 100%;
+  }
+
+  .landing-header {
+    margin-bottom: 28px;
+  }
+
+  /* Headings */
+  h1 {
+    font-size: 22px;
+  }
+
+  /* Algorithm grid — 1 col on tablet */
+  .algorithm-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Mode grid — collapse to 1 col */
+  .mode-grid {
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
+  }
+
+  /* Controls bar */
+  .controls-bar {
+    gap: 6px;
+  }
+
+  .controls-bar button {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  /* Array visualizer */
+  .array-container {
+    margin: 40px 0;
+    overflow-x: auto;
+  }
+
+  .array-box {
+    width: 48px;
+    height: 48px;
+    font-size: 15px;
+  }
+
+  /* Stack */
+  .stack-container {
+    width: 120px;
+    margin: 28px auto;
+  }
+
+  /* Graph/tree SVG — let it fill available width */
+  .graph-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Queue */
+  .queue-container {
+    overflow-x: auto;
+    padding: 30px 0;
+    margin: 30px 0;
+  }
+
+  /* Hashmap */
+  .hashmap-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .hash-calc-box {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .bucket-list {
+    padding-left: 16px;
+  }
+
+  /* Form */
+  .form-container {
+    max-width: 100%;
+  }
+
+  /* Graph legend */
+  .graph-legend {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  /* Info view */
+  .info-two-col {
+    flex-direction: column !important;
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE — PHONE (≤ 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  body {
+    padding: 14px;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  h1 {
+    font-size: 18px;
+    letter-spacing: -0.03em;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  /* Single column everywhere on phones */
+  .algorithm-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mode-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Cards */
+  .algo-card {
+    padding: 18px;
+  }
+
+  .mode-card {
+    padding: 20px 16px;
+  }
+
+  .mode-card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  /* Controls bar — very compact */
+  .controls-bar {
+    gap: 4px;
+  }
+
+  .controls-bar button {
+    font-size: 11px;
+    padding: 7px 8px;
+    min-height: 40px;
+  }
+
+  .frame-counter {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 4px;
+    font-size: 12px;
+  }
+
+  /* Array boxes — slightly smaller */
+  .array-box {
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+  }
+
+  .pointer {
+    width: 40px;
+    font-size: 11px;
+  }
+
+  /* Stack narrower */
+  .stack-container {
+    width: 100px;
+  }
+
+  .stack-node {
+    height: 48px;
+    font-size: 16px;
+  }
+
+  /* Code panel */
+  .code-panel,
+  .variables-panel {
+    padding: 12px;
+  }
+
+  .code-block {
+    font-size: 12px;
+  }
+
+  .line-number {
+    width: 24px;
+    margin-right: 8px;
+    font-size: 11px;
+  }
+
+  /* Modal */
+  .modal-box {
+    padding: 20px 16px;
+  }
+
+  .modal-title {
+    font-size: 17px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-proceed,
+  .btn-cancel {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Back button */
+  .back-btn {
+    font-size: 11px;
+    padding: 6px 12px;
+    margin-bottom: 20px;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumb {
+    font-size: 10px;
+  }
+
+  .screen-header {
+    margin-bottom: 24px;
+  }
+
+  /* Hashmap calc box */
+  .hash-calc-box {
+    font-size: 14px;
+    padding: 14px;
+  }
+
+  .bucket-index {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .hashmap-key {
+    padding: 7px 10px;
+    font-size: 15px;
+  }
 }

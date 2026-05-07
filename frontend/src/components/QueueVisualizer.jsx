@@ -13,6 +13,7 @@ const QueueVisualizer = ({ frames, currentIndex, previousLocals, queueVar = "que
   const prevTail = prevLocals[tailVar] !== undefined ? prevLocals[tailVar] : (prevLocals[queueVar]?.length || 0);
 
   return (
+    <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
     <div className="queue-container">
       <div className="queue-tube">
         {queue.map((val, idx) => {
@@ -43,6 +44,7 @@ const QueueVisualizer = ({ frames, currentIndex, previousLocals, queueVar = "que
           <div className="queue-node mono empty-node"></div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

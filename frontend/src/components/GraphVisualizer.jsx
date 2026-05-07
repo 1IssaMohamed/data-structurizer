@@ -19,7 +19,7 @@ const GraphVisualizer = ({ frames, currentIndex, previousLocals, graphVar = "gra
 
   return (
     <div className="graph-container">
-      <svg width={W} height={H} className="graph-svg">
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} className="graph-svg" style={{ display: 'block' }}>
         {/* Draw Edges first so they are behind nodes */}
         {Object.entries(graph).map(([fromNodeStr, neighbors]) => {
           const fromNode = parseInt(fromNodeStr);
@@ -36,7 +36,7 @@ const GraphVisualizer = ({ frames, currentIndex, previousLocals, graphVar = "gra
               <line 
                 key={`${fromNode}-${toNode}-${i}`} 
                 x1={x1} y1={y1} x2={x2} y2={y2} 
-                stroke="var(--border-color)" 
+                stroke="#000" 
                 strokeWidth={3} 
               />
             );

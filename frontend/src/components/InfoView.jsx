@@ -22,7 +22,7 @@ const InfoView = ({ algorithm, onBack }) => {
       
       <div className="screen-header" style={{ marginBottom: '40px' }}>
         <div className="breadcrumb mono">{algorithm.category}</div>
-        <h1 style={{ fontSize: '36px', marginBottom: '8px' }}>{algorithm.displayName.toUpperCase()}</h1>
+        <h1 style={{ fontSize: 'clamp(20px, 5vw, 36px)', marginBottom: '8px' }}>{algorithm.displayName.toUpperCase()}</h1>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
